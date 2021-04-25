@@ -177,7 +177,15 @@ try {
     } else if ($id && $property) {
         $entities = getEntitiesFromProperty($id, $property, $entity, $project);
     } else {
-        $entities = $project->getEntities($entity, [], 0);
+        $rawQuery = (string) filter_input(INPUT_POST, 'query');
+        $matches = [];
+        preg_match_all('/[\S]+/', $rawQuery, $matches);
+        $query = [];
+        foreach ($matches[0] as $queryPart) {
+            preg_match('/^([a-zA-Z_]+):(.*)$/', $queryPart, $matches);
+            $query[$matches[1]] = eval('return '.$matches[2].';');
+        }
+        $entities = $project->getEntities($entity, $query, 0);
     }
 
     $reflectionClass = new ReflectionClass($entity);

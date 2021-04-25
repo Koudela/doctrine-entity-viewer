@@ -44,3 +44,7 @@ tr.even {
 #selected-entity {
     color: limegreen;
 }
+#query input {
+    width: 100%;
+    box-sizing: border-box;
+}

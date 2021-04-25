@@ -34,6 +34,7 @@ $conf->projects[$projectName]->initObjectManager();
         </label>
         <span id="selected-entity"></span>
     </section>
+    <section id="query"><label><input id="query-input" type="text" /></label></section>
     <section id="entity-dump"></section>
     <script type="text/javascript">
         function selectProject(elm) {
@@ -76,6 +77,7 @@ $conf->projects[$projectName]->initObjectManager();
                 const data = new FormData();
                 data.append('project', document.querySelector('#select-project').value)
                 data.append('entity', elm.value);
+                data.append('query',document.querySelector('#query-input').value);
 
                 fetch('entity-content.php', {
                     method: 'post',
@@ -121,6 +123,13 @@ $conf->projects[$projectName]->initObjectManager();
                     elm.parentNode.parentNode.nextElementSibling.querySelector('.output').innerHTML = data;
                 });
         }
+
+        document.addEventListener('keydown', function (ev) {
+            if (ev.key === 'Enter') {
+                const select = document.querySelector('#select-entity')
+                selectEntity(select.options[select.selectedIndex]);
+            }
+        })
     </script>
 </body>
 </html>

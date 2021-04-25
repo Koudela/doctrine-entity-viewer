@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\ResolveTargetEntityListener;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\Persistence\ObjectManager;
+use function Doctrine\ORM\QueryBuilder;
 
 class Project
 {
@@ -79,8 +80,15 @@ class Project
             ->from($fQCN, 'alias');
 
         foreach ($constrains as $name => $constrain) {
-            $queryBuilder->andWhere("alias.$name=:$name");
-            $queryBuilder->setParameter($name, $constrain);
+            if (is_array($constrain)) {
+                $queryBuilder->andWhere($queryBuilder->expr()->in("alias.$name", $constrain));
+            } elseif (is_string($constrain) && false !== strpos($constrain, '%')) {
+                $queryBuilder->andWhere($queryBuilder->expr()->like("alias.$name", ":$name"));
+                $queryBuilder->setParameter($name, $constrain);
+            } else {
+                $queryBuilder->andWhere("alias.$name=:$name");
+                $queryBuilder->setParameter($name, $constrain);
+            }
         }
 
         $query = $queryBuilder->getQuery();
