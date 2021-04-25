@@ -1,0 +1,46 @@
+* {
+    font-family: sans-serif, "Liberation Sans";
+}
+body {
+    background-color: black;
+}
+section {
+    margin: 1em 0;
+}
+table {
+    background-color: darkgrey;
+}
+th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 0.5em;
+}
+tr.odd {
+    background-color: grey;
+}
+tr.even {
+    background-color: darkgrey;
+}
+.method {
+    color: midnightblue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.property {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.entity {
+    color: midnightblue;
+}
+.entity.empty {
+    color: darkslategray;
+}
+.error {
+    color: darkred;
+    font-weight: bold;
+}
+#selected-entity {
+    color: limegreen;
+}
